@@ -1,0 +1,17 @@
+promise - objeto que tera um metodo que ira responder ao receber um retorno, seja ele uma falha ou não
+
+await - recurso semelhante a promisse para responder apenas quando retornada uma requisição, porem reduzindo o "trabalho manual"
+
+criar função para ser chamado com await = async functio (nome da função())
+
+********instalação do vue.js*********
+
+npm i -g vue-cli
+
+*************************************
+
+vue não trabalha com mvc mas sim com mvvm  e componentização
+
+
+
+ 
