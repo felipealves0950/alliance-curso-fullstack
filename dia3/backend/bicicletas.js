@@ -22,42 +22,44 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     let payload = req.body;
-    let sql = `insert into BICICLETAS(CODIGO, ATIVO) values
-    ('${payload.ativo}')`;
+    let sql = `insert into BICICLETAS(CODIGO, ATIVO) VALUES
+    ('${payload.codigo}', '${payload.ativo}');
+    `;
     console.log(sql);
     const client = criaClient();
     await client.connect();
-    await client.query();
+    await client.query(sql);
     await client.end();
 
     res.status(201);
     res.send();
 });
 
+
 router.put('/:codigo', async(req, res) =>{
     let codigo = req.params.codigo;
     let payload = req.body;
 
     let sql = `update BICICLETAS set
-            ATIVO = '${payload.ativo}
+            ATIVO = '${payload.ativo}'
         where
-            CODIGO = '${codigo};'`;
+            CODIGO = '${codigo}';`;
             console.log(sql);
             const client = criaClient();
             await client.connect();
-            await client.query();
+            await client.query(sql);
             await client.end();
         
-            res.status(201);
+            res.status(204);
             res.send();
 })
-router.put('/:codigo', async(req, res) =>{
+router.delete('/:codigo', async(req, res) =>{
     let codigo = req.params.codigo;
     let payload = req.body;
 
     let sql = `delete from BICICLETAS
         where
-            CODIGO = '${codigo};'`;
+            CODIGO = '${codigo}';`;
             console.log(sql);
             const client = criaClient();
             await client.connect();
