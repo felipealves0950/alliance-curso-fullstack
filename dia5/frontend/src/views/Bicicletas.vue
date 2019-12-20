@@ -16,8 +16,8 @@
                 <font-awesome-icon icon="trash" />
             </b-button>
         </template>
-        <template slot="cell(actionEdit)" slot-scope="{ item: { codigo }}">
-            <b-button v-on:click="editarBicicleta(codigo)">
+        <template slot="cell(actionEdit)" slot-scope="{ item }">
+            <b-button v-on:click="beforeEditaBicicleta(item)">
                 <font-awesome-icon icon="pen" />
             </b-button>
         </template>
@@ -30,13 +30,20 @@
         @ok="saveNovaBicicleta">
         <FormBicicleta v-model="bicicletaAtual"/>
     </b-modal>
+    <b-modal id="editaBicicleta"
+        :title="'Alterar a bicileta - ' + bicicletaAtual.codigo"
+        ok-title="Alterar"
+        cancel-title="Cancelar"
+        @ok="editarBicicleta">
+        <FormBicicleta v-model="bicicletaAtual"/>
+    </b-modal>
+
   </div>
 </template>
 
 <script>
 import FormBicicleta from '../components/FormBicicletas';
 import axios from 'axios';
-
 export default {
     components: {FormBicicleta},
     data: () => {
@@ -68,19 +75,10 @@ export default {
         }
     },
     methods: {
-        async excluirBicicleta(codigo) {
-            let payload = {
-                ativo: this.bicicletaAtual.ativo
-            };
-            try {
-                await axios.delete(`http://localhost:3000/bicicletas/${this.bicicletaAtual.codigo}`, payload);
-                await this.carregaBicicletas();
-            } catch(err) {
-                alert('erro ao excluir a bicicleta');
-            }
-          }
+        excluirBicicleta(codigo) {
+            return codigo;
         },
-                beforeEditaBicicleta(bicicleta) {
+        beforeEditaBicicleta(bicicleta) {
             this.bicicletaAtual = {
                 codigo: bicicleta.codigo,
                 ativo: bicicleta.ativo,
@@ -88,7 +86,7 @@ export default {
             }
             this.$root.$emit('bv::show::modal', 'editaBicicleta');
         },
-        async editarBicicleta(codigo) {
+        async editarBicicleta() {
            let payload = {
                 ativo: this.bicicletaAtual.ativo
             };
@@ -98,7 +96,6 @@ export default {
             } catch(err) {
                 alert('erro ao atualizar a bicicleta');
             }
-            return codigo;
         },
         async carregaBicicletas() {
             this.bicicletas.splice(0, this.bicicletas.length);
@@ -115,18 +112,16 @@ export default {
                 codigo: this.bicicletaAtual.codigo,
                 ativo: this.bicicletaAtual.ativo
             };
-
             try {
                 await axios.post('http://localhost:3000/bicicletas/', payload);
                 await this.carregaBicicletas();
             } catch(err) {
                 alert('erro ao inserir a bicicleta');
             }
-
-        },
+        }
+    },
     async mounted() {
         await this.carregaBicicletas();
     }
 }
-
 </script>
