@@ -1,3 +1,4 @@
+
 <template>
     <b-form>
         <b-form-group
@@ -12,12 +13,10 @@
                 v-model="content.codigo"
                 type="text"
                 required
-                placeholder="Código da bicicleta"
+                placeholder="código da bicicleta"
                 @input="handleInput"
-                :disabled="!content.isNew"
-            />
+                :disabled="!content.isNew"/>
         </b-form-group>
-
         <b-form-group
             id="input-ativo"
             label="Ativo"
@@ -28,34 +27,33 @@
                 id="chkAtivo"
                 v-model="content.ativo"
                 required
-                @input="handleInput"
-            />
-        </b-form-group>        
+                switch
+                @input="handleInput"/>
+        </b-form-group>
     </b-form>
 </template>
 
 <script>
-    export default {
-        props: ['value'],
-        data () {
-            return {
-                content: {
-                    codigo: this.value.codigo,
-                    ativo: (this.value.ativo === 'S'),
-                    isNew: this.value.isNew
-                }
-            }
-        },
-
-        methods: {
-            handleInput () {
-                let retorno = {
-                    codigo: this.content.codigo,
-                    ativo: this.content.ativo ? 'S' : 'N',
-                    isNew: this.content.isNew
-                };
-                this.$emit('input', retorno)
+export default {
+    props: ['value'],
+    data () {
+        return {
+            content: {
+                codigo: this.value.codigo,
+                ativo: (this.value.ativo ==='Y'),
+                isNew: this.value.isNew
             }
         }
+    },
+    methods: {
+        handleInput () {
+            let retorno = {
+                codigo: this.content.codigo,
+                ativo: this.content.ativo ? 'Y' : 'N',
+                isNew: this.content.isNew
+            };
+            this.$emit('input', retorno);
+        }
     }
+}
 </script>

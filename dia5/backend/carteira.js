@@ -24,8 +24,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     let payload = req.body;
     let sql = `insert into CARTEIRA(CODIGO_ATIVO, QUANTIDADE, PRECO_MEDIO) VALUES
-    ('${payload.codigo_ativo}', ${payload.quantidade}, ${payload.preco_medio});
-    `;
+    ('${payload.codigo_ativo}', ${payload.quantidade}, ${payload.preco_medio});`;
     console.log(sql);
     const client = criaClient();
     await client.connect();
